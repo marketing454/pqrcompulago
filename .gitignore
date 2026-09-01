@@ -1,0 +1,9 @@
+.env
+.env.*
+!.env.example
+/vendor/
+/storage/
+/public/uploads/*
+!/public/uploads/.htaccess
+docker_err.txt
+Gestion de PQRS - Web .xlsx

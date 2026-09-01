@@ -1,0 +1,178 @@
+/* Shared loading feedback inspired by the Thinking Orbs interaction pattern. */
+:root {
+    --pqr-loader-accent: #b0c80b;
+    --pqr-loader-deep: #6e8800;
+    --pqr-loader-surface: rgba(255, 255, 255, 0.94);
+    --pqr-loader-text: #0f172a;
+    --pqr-loader-muted: #64748b;
+}
+
+.pqr-page-loader {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+    background: rgba(248, 250, 249, 0.76);
+    backdrop-filter: blur(7px);
+    -webkit-backdrop-filter: blur(7px);
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+.pqr-page-loader[hidden] {
+    display: none;
+}
+
+.pqr-page-loader.is-visible {
+    opacity: 1;
+    pointer-events: auto;
+    visibility: visible;
+}
+
+.pqr-loader-card {
+    display: flex;
+    width: min(100%, 290px);
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 24px 26px 22px;
+    border: 1px solid rgba(176, 200, 11, 0.28);
+    border-radius: 20px;
+    background: var(--pqr-loader-surface);
+    box-shadow: 0 22px 60px rgba(15, 23, 42, 0.16), 0 0 0 6px rgba(176, 200, 11, 0.06);
+    color: var(--pqr-loader-text);
+    text-align: center;
+}
+
+.pqr-loader-message {
+    font-size: 0.88rem;
+    font-weight: 800;
+    line-height: 1.4;
+}
+
+.pqr-loader-detail {
+    min-height: 1em;
+    color: var(--pqr-loader-muted);
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.pqr-thinking-orb {
+    position: relative;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    isolation: isolate;
+}
+
+.pqr-thinking-orb::before {
+    content: '';
+    position: absolute;
+    inset: 17px;
+    z-index: -1;
+    border-radius: 50%;
+    background: rgba(176, 200, 11, 0.12);
+    box-shadow: 0 0 25px rgba(176, 200, 11, 0.2);
+}
+
+.pqr-orb-dot {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 7px;
+    height: 7px;
+    margin: -3.5px;
+    border-radius: 50%;
+    background: var(--pqr-loader-accent);
+    box-shadow: 0 0 0 1px rgba(110, 136, 0, 0.08);
+    transform: rotate(var(--orb-angle)) translateY(-25px) scale(0.62);
+    transform-origin: 50% 50%;
+    animation: pqr-orb-think 1.35s ease-in-out infinite;
+    animation-delay: var(--orb-delay);
+}
+
+@keyframes pqr-orb-think {
+    0%, 100% {
+        opacity: 0.28;
+        transform: rotate(var(--orb-angle)) translateY(-25px) scale(0.62);
+    }
+
+    50% {
+        opacity: 1;
+        background: var(--pqr-loader-deep);
+        transform: rotate(var(--orb-angle)) translateY(-25px) scale(1.15);
+    }
+}
+
+.pqr-loader-progress {
+    display: none;
+    width: 100%;
+    gap: 7px;
+    flex-direction: column;
+}
+
+.pqr-page-loader.has-progress .pqr-loader-progress {
+    display: flex;
+}
+
+.pqr-loader-progress-track {
+    width: 100%;
+    height: 5px;
+    overflow: hidden;
+    border-radius: 9999px;
+    background: rgba(110, 136, 0, 0.14);
+}
+
+.pqr-loader-progress-bar {
+    width: 0;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--pqr-loader-accent), var(--pqr-loader-deep));
+    transition: width 0.16s ease-out;
+}
+
+.pqr-loader-progress-label {
+    color: var(--pqr-loader-muted);
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-align: right;
+}
+
+.pqr-button-spinner {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: pqr-button-spin 0.75s linear infinite;
+}
+
+.pqr-loading-button {
+    cursor: wait !important;
+    opacity: 0.82;
+}
+
+@keyframes pqr-button-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pqr-page-loader,
+    .pqr-orb-dot,
+    .pqr-button-spinner {
+        animation: none;
+        transition: none;
+    }
+
+    .pqr-orb-dot {
+        opacity: 0.72;
+        transform: rotate(var(--orb-angle)) translateY(-25px) scale(0.9);
+    }
+}

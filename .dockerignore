@@ -1,0 +1,9 @@
+.git
+.env
+.env.*
+!.env.example
+vendor/
+storage/
+public/uploads/*
+!public/uploads/.htaccess
+Gestion de PQRS - Web .xlsx
